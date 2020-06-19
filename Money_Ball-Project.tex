@@ -1,0 +1,332 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Money-Ball Project},
+  pdfauthor={Kush Jani},
+  pdfborder={0 0 0},
+  breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-2}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Money-Ball Project}
+\author{Kush Jani}
+\date{6/19/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{lets-get-started}{%
+\subsection{Let's get started!}\label{lets-get-started}}
+
+Follow the steps outlined in bold below using your new R skills and help
+the Oakland A's recruit under-valued players!
+
+\textbf{Use R to open the Batting.csv file and assign it to a dataframe
+called batting using read.csv}
+\texttt{here\ I\ mentioned\ my\ path\ in\ code\ ,\ You\ have\ to\ write\ your\ path\ as\ you\ have\ saved\ your\ fie\ in\ your\ PC}
+
+\begin{verbatim}
+batting <- read.csv('C:/Users/Kush/Documents/R/R-Course-HTML-Notes/R-Course-HTML-Notes/R-for-Data-Science-and-Machine-Learning/Training Exercises/Capstone and Data Viz Projects/Capstone Project/Batting.csv')
+\end{verbatim}
+
+\textbf{Use head() to check out the batting}
+
+\begin{verbatim}
+head(batting)
+\end{verbatim}
+
+\textbf{Use str() to check the structure. Pay close attention to how
+columns that start with a number get an `X' in front of them! You'll
+need to know this to call those columns!}
+
+\begin{verbatim}
+str(batting)
+\end{verbatim}
+
+\textbf{Call the head() of the first five rows of AB (At Bats) column}
+
+\begin{verbatim}
+head(batting$AB)
+\end{verbatim}
+
+\textbf{Call the head of the doubles (X2B) column}
+
+\begin{verbatim}
+head(batting$X2B)
+\end{verbatim}
+
+\hypertarget{feature-engineering}{%
+\subsection{Feature Engineering}\label{feature-engineering}}
+
+\textbf{We need to add three more statistics that were used in
+Moneyball! These are}
+
+\texttt{Batting\ Average} \texttt{On\ Base\ Percentage}
+\texttt{Slugging\ Percentage}
+
+\textbf{Batting Average is equal to H (Hits) divided by AB (At Base). So
+we'll do the following to create a new column called BA and add it to
+our data frame:}
+
+\begin{verbatim}
+batting$BA <- batting$H / batting$AB
+\end{verbatim}
+
+\textbf{After doing this operation, check the last 5 entries of the BA
+column of your data frame and it should look like this:}
+
+\begin{verbatim}
+tail(batting$BA,5)
+\end{verbatim}
+
+\textbf{Now do the same for some new columns! On Base Percentage (OBP)
+and Slugging Percentage (SLG)}
+\texttt{HINT:-\ For\ SLG,\ you\ need\ 1B\ (Singles),\ this\ isn\textquotesingle{}t\ in\ your\ data\ frame.}
+\texttt{However\ you\ can\ calculate\ it\ by\ subtracting\ doubles,triples,\ and\ home\ runs\ from\ total\ hits\ (H):\ 1B\ =\ H-2B-3B-HR}
+
+\textbf{Create an OBP Column \& Create an SLG Column} \textbf{On Base
+Percentage}
+
+\begin{verbatim}
+batting$OBP <- (batting$H + batting$BB + batting$HBP)/(batting$AB + batting$BB + batting$HBP + batting$SF)
+\end{verbatim}
+
+\textbf{Creating X1B (Singles)}
+
+\begin{verbatim}
+batting$X1B <- batting$H - batting$X2B - batting$X3B - batting$HR
+\end{verbatim}
+
+\textbf{Creating Slugging Average (SLG)}
+
+\begin{verbatim}
+batting$SLG <- ((1 * batting$X1B) + (2 * batting$X2B) + (3 * batting$X3B) + (4 * batting$HR) ) / batting$AB
+\end{verbatim}
+
+\textbf{Check the structure of your data frame using str()}
+
+\begin{verbatim}
+str(batting)
+\end{verbatim}
+
+\hypertarget{merging-salary-data-with-batting-data}{%
+\subsection{Merging Salary Data with Batting
+Data}\label{merging-salary-data-with-batting-data}}
+
+\texttt{We\ know\ we\ don\textquotesingle{}t\ just\ want\ the\ best\ players,\ we\ want\ the\ most\ undervalued\ players,}
+\texttt{meaning\ we\ will\ also\ need\ to\ know\ current\ salary\ information!\ We\ have\ salary\ information\ in\ the\ csv\ file\ \textquotesingle{}Salaries.csv\textquotesingle{}.}
+
+\textbf{Complete the following steps to merge the salary data with the
+player stats!}
+
+\textbf{Load the Salaries.csv file into a dataframe called sal using
+read.csv}
+
+\begin{verbatim}
+sal <- read.csv('C:/Users/Kush/Documents/R/R-Course-HTML-Notes/R-Course-HTML-Notes/R-for-Data-Science-and-Machine-Learning/Training Exercises/Capstone and Data Viz Projects/Capstone Project/Salaries.csv')
+\end{verbatim}
+
+\textbf{Use summary to get a summary of the batting data frame and
+notice the minimum year in the yearID column. Our batting data goes back
+to 1871! Our salary data starts at 1985, meaning we need to remove the
+batting data that occured before 1985 \& Use subset() to reassign
+batting to only contain data from 1985 and onwards}
+
+\begin{verbatim}
+summary(batting)
+batting <- subset(batting,yearID >= 1985)
+\end{verbatim}
+
+\textbf{Now use summary again to make sure the subset reassignment
+worked, your yearID min should be 1985}
+
+\begin{verbatim}
+summary(batting)
+\end{verbatim}
+
+\textbf{Use the merge() function to merge the batting and sal data
+frames by c(`playerID',`yearID'). Call the new data frame combo}
+
+\begin{verbatim}
+combo <- merge(batting,sal,by=c('playerID','yearID'))
+\end{verbatim}
+
+\textbf{Use summary to check the data}
+
+\begin{verbatim}
+summary(combo)
+\end{verbatim}
+
+\hypertarget{analyzing-the-lost-players}{%
+\subsection{Analyzing the Lost
+Players}\label{analyzing-the-lost-players}}
+
+\texttt{As\ previously\ mentioned,\ the\ Oakland\ A\textquotesingle{}s\ lost\ 3\ key\ players\ during\ the\ off-season.}
+\texttt{We\textquotesingle{}ll\ want\ to\ get\ their\ stats\ to\ see\ what\ we\ have\ to\ replace.}
+\texttt{The\ players\ lost\ were:\ first\ baseman\ 2000\ AL\ MVP\ Jason\ Giambi\ (giambja01)\ to\ the\ New\ York\ Yankees,}
+\texttt{outfielder\ Johnny\ Damon\ (damonjo01)\ to\ the\ Boston\ Red\ Sox\ and\ infielder\ Rainer\ Gustavo\ "Ray"\ Olmedo\ (\textquotesingle{}saenzol01\textquotesingle{}).}
+
+\textbf{Use the subset() function to get a data frame called
+lost\_players from the combo data frame consisting of those 3 players.
+Hint: Try to figure out how to use \%in\% to avoid a bunch of or
+statements!}
+
+\begin{verbatim}
+lost_players <- subset(combo,playerID %in% c('giambja01','damonjo01','saenzol01') )
+lost_players
+\end{verbatim}
+
+\texttt{Since\ all\ these\ players\ were\ lost\ in\ after\ 2001\ in\ the\ offseason,\ let\textquotesingle{}s\ only\ concern\ ourselves\ with\ the\ data\ from\ 2001.}
+
+\textbf{Use subset again to only grab the rows where the yearID was
+2001.}
+
+\begin{verbatim}
+lost_players <- subset(lost_players,yearID == 2001)
+\end{verbatim}
+
+\textbf{Reduce the lost\_players data frame to the following columns:
+playerID,H,X2B,X3B,HR,OBP,SLG,BA,AB}
+
+\begin{verbatim}
+lost_players <- lost_players[,c('playerID','H','X2B','X3B','HR','OBP','SLG','BA','AB')]
+head(lost_players)
+\end{verbatim}
+
+\hypertarget{replacement-players}{%
+\subsection{Replacement Players}\label{replacement-players}}
+
+\texttt{Now\ we\ have\ all\ the\ information\ we\ need!\ Here\ is\ your\ final\ task\ -\ Find\ Replacement\ Players\ for\ the\ key\ three\ players\ we\ lost!}
+\textbf{However, you have three constraints: (1)The total combined
+salary of the three players can not exceed 15 million dollars.}
+\textbf{(2)Their combined number of At Bats (AB) needs to be equal to or
+greater than the lost players.} \textbf{(3)Their mean OBP had to equal
+to or greater than the mean OBP of the lost players}
+
+\hypertarget{example-solution}{%
+\subsection{Example Solution}\label{example-solution}}
+
+\texttt{Note:\ There\ are\ lots\ of\ correct\ answers\ and\ ways\ to\ solve\ this!}
+
+\textbf{First only grab available players from year 2001}
+
+\begin{verbatim}
+library(dplyr)
+avail.players <- filter(combo,yearID==2001)
+\end{verbatim}
+
+\textbf{Then I made a quick plot to see where I should cut-off for
+salary in respect to OBP:}
+
+\begin{verbatim}
+library(ggplot2)
+ggplot(avail.players,aes(x=OBP,y=salary)) + geom_point()
+\end{verbatim}
+
+\textbf{Looks like there is no point in paying above 8 million or so
+(I'm just eyeballing this number). I'll choose that as a cutt off point.
+There are also a lot of players with OBP==0. Let's get rid of them too.}
+
+\begin{verbatim}
+avail.players <- filter(avail.players,salary<8000000,OBP>0)
+\end{verbatim}
+
+\textbf{The total AB of the lost players is 1469. This is about 1500,
+meaning I should probably cut off my avail.players at 1500/3= 500 AB.}
+
+\begin{verbatim}
+avail.players <- filter(avail.players,AB >= 500)
+\end{verbatim}
+
+\textbf{Now let's sort by OBP and see what we've got!}
+
+\begin{verbatim}
+possible <- head(arrange(avail.players,desc(OBP)),10)
+\end{verbatim}
+
+\textbf{Grab columns I'm interested in:}
+
+\begin{verbatim}
+possible <- possible[,c('playerID','OBP','AB','salary')]
+possible
+\end{verbatim}
+
+\textbf{Can't choose giambja again, but the other ones look good (2-4).
+I choose them!}
+
+\begin{verbatim}
+possible[2:4,]
+\end{verbatim}
+
+\textbf{Great, looks like I just saved the 2001 Oakland A's a lot of
+money! If only I had a time machine and R, I could have made a lot of
+money in 2001 picking players!}
+
+\texttt{Great\ Job!\ Here\ we\ completed\ MoneyBall\ project!}
+
+\hypertarget{the-end}{%
+\subsection{The End!}\label{the-end}}
+
+\end{document}
